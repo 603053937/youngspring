@@ -7,9 +7,11 @@ import com.wewe.entity.dto.Result;
 import com.wewe.service.combine.HeadLineShopCategoryCombineService;
 import com.wewe.service.solo.HeadLineService;
 import com.wewe.service.solo.ShopCategoryService;
+import org.youngspringframework.core.annotation.Service;
 
 import java.util.List;
 
+@Service
 public class HeadLineShopCategoryCombineServiceImpl implements HeadLineShopCategoryCombineService {
     private HeadLineService headLineService;
     private ShopCategoryService shopCategoryService;

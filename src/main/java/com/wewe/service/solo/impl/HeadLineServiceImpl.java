@@ -3,9 +3,11 @@ package com.wewe.service.solo.impl;
 import com.wewe.entity.bo.HeadLine;
 import com.wewe.entity.dto.Result;
 import com.wewe.service.solo.HeadLineService;
+import org.youngspringframework.core.annotation.Service;
 
 import java.util.List;
 
+@Service
 public class HeadLineServiceImpl implements HeadLineService {
     @Override
     public Result<Boolean> addHeadLine(HeadLine headLine) {

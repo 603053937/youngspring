@@ -3,11 +3,13 @@ package com.wewe.controller.superadmin;
 import com.wewe.entity.bo.HeadLine;
 import com.wewe.entity.dto.Result;
 import com.wewe.service.solo.HeadLineService;
+import org.youngspringframework.core.annotation.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@Controller
 public class HeadLineOperationController {
     private HeadLineService headLineService;
 
