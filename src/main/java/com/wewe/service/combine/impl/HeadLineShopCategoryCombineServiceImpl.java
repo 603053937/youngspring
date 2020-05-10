@@ -8,12 +8,16 @@ import com.wewe.service.combine.HeadLineShopCategoryCombineService;
 import com.wewe.service.solo.HeadLineService;
 import com.wewe.service.solo.ShopCategoryService;
 import org.youngspringframework.core.annotation.Service;
+import org.youngspringframework.inject.annotation.Autowired;
 
 import java.util.List;
 
 @Service
 public class HeadLineShopCategoryCombineServiceImpl implements HeadLineShopCategoryCombineService {
+
+    @Autowired
     private HeadLineService headLineService;
+    @Autowired
     private ShopCategoryService shopCategoryService;
 
     @Override
