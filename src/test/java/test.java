@@ -1,11 +1,17 @@
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+import com.wewe.controller.superadmin.HeadLineOperationController;
+import org.junit.jupiter.api.Test;
+import org.youngspringframework.aop.AspectWeaver;
+import org.youngspringframework.core.BeanContainer;
+import org.youngspringframework.inject.DependencyInjector;
 
 public class test {
-    public static void main(String[] args) {
-        test test = new test();
-        Object o = new Object();
-        System.out.println(test.getClass());
-        System.out.println(o.getClass());
-        System.out.println(test.getClass()==o.getClass());
+    @Test
+    public void doAopTest(){
+        BeanContainer beanContainer = BeanContainer.getInstance();
+        beanContainer.loadBeans("com.wewe");
+        new AspectWeaver().doAop();
+        new DependencyInjector().doIoc();
+        HeadLineOperationController headLineOperationController = (HeadLineOperationController) beanContainer.getBean(HeadLineOperationController.class);
+        headLineOperationController.addHeadLine(null, null);
     }
 }

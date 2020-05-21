@@ -3,14 +3,17 @@ package com.wewe.service.solo.impl;
 import com.wewe.entity.bo.HeadLine;
 import com.wewe.entity.dto.Result;
 import com.wewe.service.solo.HeadLineService;
+import lombok.extern.slf4j.Slf4j;
 import org.youngspringframework.core.annotation.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class HeadLineServiceImpl implements HeadLineService {
     @Override
     public Result<Boolean> addHeadLine(HeadLine headLine) {
+        log.info("addHeadLine被执行啦");
         return null;
     }
 

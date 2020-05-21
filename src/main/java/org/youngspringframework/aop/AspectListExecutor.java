@@ -12,8 +12,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AspectListExecutor implements MethodInterceptor {
+
     //被代理的对象
     private Class<?> targetClass;
+
     //排好序的Aspect列表
     @Getter
     private List<AspectInfo> sortedAspectInfoList;
