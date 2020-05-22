@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ *  仅有一个servlet
+ *  1. 拦截所有请求
+ *  2. 解析请求
+ *  3. 派发给对应的controller里面的方法进行处理
+ */
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
 

@@ -4,7 +4,9 @@ package com.wewe.entity.bo;
 import lombok.Data;
 
 import java.util.Date;
-
+/**
+ *  店铺种类
+ */
 @Data
 public class ShopCategory {
     private Long shopCategoryId;

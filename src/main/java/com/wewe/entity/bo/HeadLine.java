@@ -4,7 +4,9 @@ package com.wewe.entity.bo;
 import lombok.Data;
 
 import java.util.Date;
-
+/**
+ *  首页头条显示
+ */
 @Data
 public class HeadLine {
     private Long lineId;

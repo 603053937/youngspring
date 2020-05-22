@@ -6,7 +6,6 @@ import java.util.Map;
 public class ValidationUtil {
     /**
      * String是否为null或""
-     *
      * @param obj String
      * @return 是否为空
      */
@@ -16,7 +15,6 @@ public class ValidationUtil {
 
     /**
      * Array是否为null或者size为0
-     *
      * @param obj Array
      * @return 是否为空
      */
@@ -25,7 +23,6 @@ public class ValidationUtil {
     }
     /**
      * Collection是否为null或size为0
-     *
      * @param obj Collection
      * @return 是否为空
      */
@@ -34,7 +31,6 @@ public class ValidationUtil {
     }
     /**
      * Map是否为null或size为0
-     *
      * @param obj Map
      * @return 是否为空
      */
