@@ -9,7 +9,7 @@ import org.youngspringframework.core.annotation.Controller;
 import java.lang.reflect.Method;
 
 @Slf4j
-@Aspect(Controller.class)
+@Aspect(pointcut = "execution(* com.wewe.controller.superadmin.HeadLineOperationController.*(..))")
 @Order(0)
 public class ControllerTimeCalculatorAspect extends DefaultAspect {
     private long timestampCache;

@@ -8,7 +8,7 @@ import org.youngspringframework.core.annotation.Service;
 
 import java.lang.reflect.Method;
 @Slf4j
-@Aspect(Service.class)
+@Aspect(pointcut = "within(org.youngspringframework.core.annotation.Component)")
 @Order(1)
 public class ServiceInfoRecordAspect  extends DefaultAspect {
     @Override

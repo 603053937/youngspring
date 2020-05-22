@@ -10,7 +10,7 @@ import org.youngspringframework.core.annotation.Controller;
 import java.lang.reflect.Method;
 
 @Slf4j
-@Aspect(Controller.class)
+@Aspect(pointcut = "within(com.wewe.controller.superadmin.*)")
 @Order(10)
 public class ControllerInfoRecordAspect extends DefaultAspect {
     @Override

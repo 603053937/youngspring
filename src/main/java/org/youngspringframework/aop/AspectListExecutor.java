@@ -9,22 +9,20 @@ import org.youngspringframework.util.ValidationUtil;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class AspectListExecutor implements MethodInterceptor {
-
-    //被代理的对象
+    //被代理的类
     private Class<?> targetClass;
-
     //排好序的Aspect列表
     @Getter
-    private List<AspectInfo> sortedAspectInfoList;
+    private List<AspectInfo>sortedAspectInfoList;
 
-    public AspectListExecutor(Class<?> targetClass, List<AspectInfo> aspectInfoList) {
+    public AspectListExecutor(Class<?> targetClass, List<AspectInfo> aspectInfoList){
         this.targetClass = targetClass;
         this.sortedAspectInfoList = sortAspectInfoList(aspectInfoList);
     }
-
     /**
      * 按照order的值进行升序排序，确保order值小的aspect先被织入
      *
@@ -45,26 +43,39 @@ public class AspectListExecutor implements MethodInterceptor {
     @Override
     public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
         Object returnValue = null;
-        if (ValidationUtil.isEmpty(sortedAspectInfoList)) {
+        collectAccurateMatchedAspectList(method);
+        if(ValidationUtil.isEmpty(sortedAspectInfoList)){
+            returnValue = methodProxy.invokeSuper(proxy, args);
             return returnValue;
         }
         //1.按照order的顺序升序执行完所有Aspect的before方法
         invokeBeforeAdvices(method, args);
-        try {
+        try{
             //2.执行被代理类的方法
             returnValue = methodProxy.invokeSuper(proxy, args);
             //3.如果被代理方法正常返回，则按照order的顺序降序执行完所有Aspect的afterReturning方法
             returnValue = invokeAfterReturningAdvices(method, args, returnValue);
-        } catch (Exception e) {
+        } catch (Exception e){
             //4.如果被代理方法抛出异常，则按照order的顺序降序执行完所有Aspect的afterThrowing方法
-            invokeAfterThrowingAdvices(method, args, e);
+            invokeAfterThrowingAdvides(method, args, e);
         }
-
         return returnValue;
     }
 
+    private void collectAccurateMatchedAspectList(Method method) {
+        if(ValidationUtil.isEmpty(sortedAspectInfoList)){return;}
+        Iterator<AspectInfo> it = sortedAspectInfoList.iterator();
+        while (it.hasNext()){
+            AspectInfo aspectInfo = it.next();
+            if(!aspectInfo.getPointcutLocator().accurateMatches(method)){
+                it.remove();
+            }
+        }
+    }
+
+
     //4.如果被代理方法抛出异常，则按照order的顺序降序执行完所有Aspect的afterThrowing方法
-    private void invokeAfterThrowingAdvices(Method method, Object[] args, Exception e) throws Throwable {
+    private void invokeAfterThrowingAdvides(Method method, Object[] args, Exception e) throws Throwable {
         for (int i =  sortedAspectInfoList.size() - 1; i >=0 ; i--){
             sortedAspectInfoList.get(i).getAspectObject().afterThrowing(targetClass, method, args, e);
         }
