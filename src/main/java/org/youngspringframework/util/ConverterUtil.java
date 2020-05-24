@@ -3,7 +3,7 @@ package org.youngspringframework.util;
 public class ConverterUtil {
     /**
      * 返回基本数据类型的空值
-     *需要特殊处理的基本类型即int\double\short\long\byte\float\boolean
+     * 需要特殊处理的基本类型即int\double\short\long\byte\float\boolean
      * @param type 参数类型
      * @return 对应的空值
      */
@@ -25,6 +25,7 @@ public class ConverterUtil {
      * @return 转换后的Object
      */
     public static Object convert(Class<?> type, String requestValue) {
+        // 判定是否基本数据类型(包括包装类以及String)
         if(isPrimitive(type)){
             if(ValidationUtil.isEmpty(requestValue)){
                 return primitiveNull(type);

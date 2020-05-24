@@ -14,4 +14,10 @@ public class test {
         HeadLineOperationController headLineOperationController = (HeadLineOperationController) beanContainer.getBean(HeadLineOperationController.class);
         headLineOperationController.addHeadLine(null, null);
     }
+
+    @Test
+    public void encoding() {
+        System.out.println("为什么是乱码");
+
+    }
 }

@@ -37,7 +37,7 @@ public class DispatcherServlet extends HttpServlet {
         // 新建容器
         BeanContainer beanContainer = BeanContainer.getInstance();
         // 扫描包 加载beans
-        beanContainer.loadBeans("com.imooc");
+        beanContainer.loadBeans("com.wewe");
         // aop横切逻辑的织入
         new AspectWeaver().doAop();
         // 依赖注入

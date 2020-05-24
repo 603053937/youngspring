@@ -6,7 +6,7 @@
     <body>
         <table>
             <h2 style="color: red"> 表单提交：</h2><br>
-            <form id="headlineInfo" method="post" action="/simpleframework/headline/add">
+            <form id="headlineInfo" method="post" action="/youngspring/headline/add">
                 头条说明:<input type="text" name="lineName"><br>
                 头条链接:<input type="text" name="lineLink"><br>
                 头条图片地址:<input type="text" name="lineImg"><br>
