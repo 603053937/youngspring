@@ -15,7 +15,8 @@ public class DependencyInjector {
      * 获取Bean容器
      */
     private BeanContainer beanContainer;
-    public DependencyInjector(){
+
+    public DependencyInjector() {
         beanContainer = BeanContainer.getInstance();
     }
 
@@ -41,11 +42,10 @@ public class DependencyInjector {
                     Autowired autowired = field.getAnnotation(Autowired.class);
                     //获取其value值，防止有多个实现类，不知道装载具体哪一个
                     String autowiredValue = autowired.value();
-
                     //4.获取这些成员变量的类型
                     Class<?> fieldClass = field.getType();
                     //5.获取这些成员变量的类型在容器里对应的实例
-                    Object fieldValue = getFieldInstance(fieldClass,autowiredValue);
+                    Object fieldValue = getFieldInstance(fieldClass, autowiredValue);
                     if (fieldValue == null) {
                         throw new RuntimeException("unable to inject relevant type，target fieldClass is:" + fieldClass.getName() + " autowiredValue is : " + autowiredValue);
                     } else {
@@ -62,14 +62,14 @@ public class DependencyInjector {
     /**
      * 根据Class在beanContainer里获取其实例或者实现类
      */
-    private Object getFieldInstance(Class<?> fieldClass,String autowiredValue) {
+    private Object getFieldInstance(Class<?> fieldClass, String autowiredValue) {
         Object fieldValue = beanContainer.getBean(fieldClass);
-        if (fieldValue != null){
+        if (fieldValue != null) {
             return fieldValue;
         } else {
             // 获取接口实现类
-            Class<?> implementedClass = getImplementedClass(fieldClass,autowiredValue);
-            if(implementedClass != null){
+            Class<?> implementedClass = getImplementedClass(fieldClass, autowiredValue);
+            if (implementedClass != null) {
                 return beanContainer.getBean(implementedClass);
             } else {
                 return null;
@@ -82,13 +82,13 @@ public class DependencyInjector {
      */
     private Class<?> getImplementedClass(Class<?> fieldClass, String autowiredValue) {
         // 通过接口或者父类获取实现类或者子类的Class集合，不包括其本身
-        Set<Class<?>> classSet =  beanContainer.getClassesBySuper(fieldClass);
+        Set<Class<?>> classSet = beanContainer.getClassesBySuper(fieldClass);
         // 判空
-        if(!ValidationUtil.isEmpty(classSet)){
+        if (!ValidationUtil.isEmpty(classSet)) {
             // 如果为空，表明没有指定实现类
-            if(ValidationUtil.isEmpty(autowiredValue)){
+            if (ValidationUtil.isEmpty(autowiredValue)) {
                 // 若只有一个实现类，则直接返回
-                if(classSet.size() == 1){
+                if (classSet.size() == 1) {
                     return classSet.iterator().next();
                 } else {
                     //如果多于两个实现类且用户未指定其中一个实现类，则抛出异常
@@ -96,8 +96,8 @@ public class DependencyInjector {
                 }
             } else {
                 // 如果非空，遍历实现类，找出指明的那个
-                for(Class<?> clazz : classSet){
-                    if(autowiredValue.equals(clazz.getSimpleName())){
+                for (Class<?> clazz : classSet) {
+                    if (autowiredValue.equals(clazz.getSimpleName())) {
                         return clazz;
                     }
                 }

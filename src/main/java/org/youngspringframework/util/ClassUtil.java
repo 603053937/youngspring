@@ -17,8 +17,9 @@ public class ClassUtil {
 
     /**
      * 根据包名获取包下类集合
+     *
      * @return 类集合
-     * @parampackageName包名
+     * @parampackageName 包名
      */
     public static Set<Class<?>> extractPackageClass(String packageName) {
         //1.获取到类的加载器。
@@ -49,6 +50,7 @@ public class ClassUtil {
 
     /**
      * 递归获取目标package里面的所有class文件(包括子package里的class文件)
+     *
      * @param emptyClassSet 装载目标类的集合
      * @param fileSource    文件或者目录
      * @param packageName   包名
@@ -108,6 +110,7 @@ public class ClassUtil {
 
     /**
      * 获取Class对象
+     *
      * @param className class全名=package + 类名
      * @return Class
      */
@@ -134,7 +137,7 @@ public class ClassUtil {
             Constructor constructor = clazz.getDeclaredConstructor();
             // 反射的访问权限setAccessible,为true时反射可以访问私有变量
             constructor.setAccessible(accessible);
-            return (T)constructor.newInstance();
+            return (T) constructor.newInstance();
         } catch (Exception e) {
             log.error("newInstance error", e);
             throw new RuntimeException(e);
@@ -143,6 +146,7 @@ public class ClassUtil {
 
     /**
      * 获取classLoader
+     *
      * @return 当前ClassLoader
      */
     public static ClassLoader getClassLoader() {
@@ -150,9 +154,9 @@ public class ClassUtil {
     }
 
 
-
     /**
      * 设置类的属性值
+     *
      * @param field      成员变量
      * @param target     类实例
      * @param value      成员变量的值

@@ -8,7 +8,6 @@ import org.youngspringframework.aop.aspect.DefaultAspect;
 import org.youngspringframework.core.BeanContainer;
 import org.youngspringframework.util.ValidationUtil;
 
-import java.lang.annotation.Annotation;
 import java.util.*;
 
 public class AspectWeaver {
@@ -78,7 +77,6 @@ public class AspectWeaver {
     }
 
     //框架中一定要遵守给Aspect类添加@Aspect和@Order标签的规范，同时，必须继承自DefaultAspect.class
-    //此外，@Aspect的属性值不能是它本身
     private boolean verifyAspect(Class<?> aspectClass) {
         return aspectClass.isAnnotationPresent(Aspect.class) &&
                 aspectClass.isAnnotationPresent(Order.class) &&
