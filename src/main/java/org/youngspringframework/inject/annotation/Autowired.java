@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
-    // 指明具体的类，以防接口或父类有多个实现类
+    // 指明具体的类,以防接口或父类有多个实现类
     String value() default "";
 }

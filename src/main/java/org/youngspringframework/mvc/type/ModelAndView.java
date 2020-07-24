@@ -17,7 +17,7 @@ public class ModelAndView {
     private Map<String, Object> model = new HashMap<>();
 
     // 为什么连个set方法都要返回对象实例
-    // 为了方便调用链的使用，可以通过一连串的 .addxxx 来设置对象的值
+    // 为了方便调用链的使用,可以通过一连串的 .addxxx 来设置对象的值
     // modelAndView.setView("addheadline.jsp").addViewData("aaa", "bbb");
     public ModelAndView setView(String view){
         this.view = view;

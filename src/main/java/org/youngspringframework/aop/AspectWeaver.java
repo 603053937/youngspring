@@ -26,7 +26,7 @@ public class AspectWeaver {
         //3.遍历容器里的类
         Set<Class<?>> classSet = beanContainer.getClasses();
         for (Class<?> targetClass: classSet) {
-            //排除AspectClass自身，避免死循环
+            //排除AspectClass自身,避免死循环
             if(targetClass.isAnnotationPresent(Aspect.class)){
                 continue;
             }
@@ -76,7 +76,7 @@ public class AspectWeaver {
         return aspectInfoList;
     }
 
-    //框架中一定要遵守给Aspect类添加@Aspect和@Order标签的规范，同时，必须继承自DefaultAspect.class
+    //框架中一定要遵守给Aspect类添加@Aspect和@Order标签的规范,同时,必须继承自DefaultAspect.class
     private boolean verifyAspect(Class<?> aspectClass) {
         return aspectClass.isAnnotationPresent(Aspect.class) &&
                 aspectClass.isAnnotationPresent(Order.class) &&

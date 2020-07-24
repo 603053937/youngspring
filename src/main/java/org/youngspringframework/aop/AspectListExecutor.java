@@ -24,7 +24,7 @@ public class AspectListExecutor implements MethodInterceptor {
         this.sortedAspectInfoList = sortAspectInfoList(aspectInfoList);
     }
     /**
-     * 按照order的值进行升序排序，确保order值小的aspect先被织入
+     * 按照order的值进行升序排序,确保order值小的aspect先被织入
      *
      * @param aspectInfoList
      * @return
@@ -53,10 +53,10 @@ public class AspectListExecutor implements MethodInterceptor {
         try{
             //2.执行被代理类的方法
             returnValue = methodProxy.invokeSuper(proxy, args);
-            //3.如果被代理方法正常返回，则按照order的顺序降序执行完所有Aspect的afterReturning方法
+            //3.如果被代理方法正常返回,则按照order的顺序降序执行完所有Aspect的afterReturning方法
             returnValue = invokeAfterReturningAdvices(method, args, returnValue);
         } catch (Exception e){
-            //4.如果被代理方法抛出异常，则按照order的顺序降序执行完所有Aspect的afterThrowing方法
+            //4.如果被代理方法抛出异常,则按照order的顺序降序执行完所有Aspect的afterThrowing方法
             invokeAfterThrowingAdvides(method, args, e);
         }
         return returnValue;
@@ -74,14 +74,14 @@ public class AspectListExecutor implements MethodInterceptor {
     }
 
 
-    //4.如果被代理方法抛出异常，则按照order的顺序降序执行完所有Aspect的afterThrowing方法
+    //4.如果被代理方法抛出异常,则按照order的顺序降序执行完所有Aspect的afterThrowing方法
     private void invokeAfterThrowingAdvides(Method method, Object[] args, Exception e) throws Throwable {
         for (int i =  sortedAspectInfoList.size() - 1; i >=0 ; i--){
             sortedAspectInfoList.get(i).getAspectObject().afterThrowing(targetClass, method, args, e);
         }
     }
 
-    //3.如果被代理方法正常返回，则按照order的顺序降序执行完所有Aspect的afterReturning方法
+    //3.如果被代理方法正常返回,则按照order的顺序降序执行完所有Aspect的afterReturning方法
     private Object invokeAfterReturningAdvices(Method method, Object[] args, Object returnValue) throws Throwable {
         Object result = null;
         for (int i =  sortedAspectInfoList.size() - 1; i >=0 ; i--){

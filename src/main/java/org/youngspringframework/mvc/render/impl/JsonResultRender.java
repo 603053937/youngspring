@@ -24,6 +24,7 @@ public class JsonResultRender implements ResultRender {
         requestProcessorChain.getResponse().setCharacterEncoding("UTF-8");
         // 响应流写入经过gson格式化之后的处理结果
         // 获取响应流的writer实例
+        // 自动关闭流
         try(PrintWriter writer = requestProcessorChain.getResponse().getWriter()){
             Gson gson = new Gson();
             // 将处理结果转换为json数据

@@ -26,17 +26,17 @@ public class ClassUtil {
         ClassLoader classLoader = getClassLoader();
         //2.通过类加载器获取到加载的资源
         // ClassLoader.getResource(String path) 获取资源路径
-        // getResource里输入的地址以 / 间隔 ，需要将包名的 . 给替换成 /
+        // getResource里输入的地址以 / 间隔 ,需要将包名的 . 给替换成 /
         URL url = classLoader.getResource(packageName.replace(".", "/"));
         if (url == null) {
             log.warn("unable to retrieve anything from package: " + packageName);
             return null;
         }
-        //3.依据不同的资源类型，采用不同的方式获取资源的集合
+        //3.依据不同的资源类型,采用不同的方式获取资源的集合
         Set<Class<?>> classSet = null;
         // 过滤出文件类型的资源即URL协议为file的文件资源
         // getProtocol()获取URL的协议
-        // equalsIgnoreCase()将字符串与指定的对象比较，不考虑大小写。
+        // equalsIgnoreCase()将字符串与指定的对象比较,不考虑大小写。
         if (url.getProtocol().equalsIgnoreCase(FILE_PROTOCOL)) {
             classSet = new HashSet<Class<?>>();
             // 获取资源的实际路径
@@ -65,7 +65,7 @@ public class ClassUtil {
         File[] files = fileSource.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
-                //只获取目录，class文件直接加载
+                //只获取目录,class文件直接加载
                 if (file.isDirectory()) {
                     return true;
                 } else {
@@ -74,14 +74,14 @@ public class ClassUtil {
                     String absoluteFilePath = file.getAbsolutePath();
                     //判断是否是以.class结尾
                     if (absoluteFilePath.endsWith(".class")) {
-                        //若是class文件，则直接加载
+                        //若是class文件,则直接加载
                         addToClassSet(absoluteFilePath);
                     }
                 }
                 return false;
             }
 
-            //根据class文件的绝对值路径，获取并生成class对象，并放入classSet中
+            //根据class文件的绝对值路径,获取并生成class对象,并放入classSet中
             private void addToClassSet(String absoluteFilePath) {
                 //1.从class文件的绝对值路径里提取出包含了package的类名
                 //如/Users/baidu/imooc/springframework/sampleframework/target/classes/com/imooc/entity/dto/MainPageInfoDTO.class
@@ -89,7 +89,7 @@ public class ClassUtil {
 
                 // 将绝对路径 分隔符 替换为 .
                 absoluteFilePath = absoluteFilePath.replace(File.separator, ".");
-                // 找出 packageName 开始的位置，并从其开始获取路径 entity.dto.MainPageInfoDTO.class
+                // 找出 packageName 开始的位置,并从其开始获取路径 entity.dto.MainPageInfoDTO.class
                 String className = absoluteFilePath.substring(absoluteFilePath.indexOf(packageName));
                 // 获取路径 从 坐标0 开始到最后一个 . 号结束 entity.dto.MainPageInfoDTO
                 className = className.substring(0, className.lastIndexOf("."));

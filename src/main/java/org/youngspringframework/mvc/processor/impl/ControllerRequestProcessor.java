@@ -27,26 +27,26 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Controller请求处理器
  * 功能：
- * 1. 针对特定请求，选择匹配的Controller方法进行处理
- * 2. 解析请求里的参数及其对应的值，并赋值给Controller方法的参数
- * 3. 选择合适的Render，为后续请求处理结果的渲染做准备
+ * 1. 针对特定请求,选择匹配的Controller方法进行处理
+ * 2. 解析请求里的参数及其对应的值,并赋值给Controller方法的参数
+ * 3. 选择合适的Render,为后续请求处理结果的渲染做准备
  */
 @Slf4j
 public class ControllerRequestProcessor implements RequestProcessor {
-    //IOC容器
+    //Bean容器
     private BeanContainer beanContainer;
     //http请求和controller方法的映射集合
     private Map<RequestPathInfo, ControllerMethod> pathControllerMethodMap = new ConcurrentHashMap<>();
 
     /**
-     * 依靠容器的能力，建立起请求路径、请求方法与Controller方法实例的映射
+     * 依靠容器的能力,建立起请求路径、请求方法与Controller方法实例的映射
      */
     public ControllerRequestProcessor() {
-        // beanContainer在DispatcherServlet中已被初始化完毕，具备完整的IOC和AOP的bean
+        // beanContainer在DispatcherServlet中已被初始化完毕,具备完整的IOC和AOP的bean
         this.beanContainer = BeanContainer.getInstance();
         // 获取被RequestMapping注解标记的所有class对象的集合
         Set<Class<?>> requestMappingSet = beanContainer.getClassesByAnnotation(RequestMapping.class);
-        // 解析被RequestMapping标注的类并将获取到的信息封装成RequestPathInfo实例和ControllerMethod实例，放置到映射表里
+        // 解析被RequestMapping标注的类并将获取到的信息封装成RequestPathInfo实例和ControllerMethod实例,放置到映射表里
         initPathControllerMethodMap(requestMappingSet);
     }
 
@@ -54,7 +54,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
         if (ValidationUtil.isEmpty(requestMappingSet)) {
             return;
         }
-        //1.遍历所有被@RequestMapping标记的类，获取类上面该注解的属性值作为一级路径
+        //1.遍历所有被@RequestMapping标记的类,获取类上面该注解的属性值作为一级路径
         for (Class<?> requestMappingClass : requestMappingSet) {
             // 获取注解标记实例
             RequestMapping requestMapping = requestMappingClass.getAnnotation(RequestMapping.class);
@@ -64,7 +64,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
             if (!basePath.startsWith("/")) {
                 basePath = "/" + basePath;
             }
-            //2.遍历类里所有被@RequestMapping标记的方法，获取方法上面该注解的属性值，作为二级路径
+            //2.遍历类里所有被@RequestMapping标记的方法,获取方法上面该注解的属性值,作为二级路径
             // 获取方法数组
             Method[] methods = requestMappingClass.getDeclaredMethods();
             if (ValidationUtil.isEmpty(methods)) {
@@ -83,9 +83,9 @@ public class ControllerRequestProcessor implements RequestProcessor {
                     }
                     // 拼接为请求路径
                     String url = basePath + methodPath;
-                    //3.解析方法里被@RequestParam标记的参数，
-                    // 获取该注解的属性值，作为参数名，
-                    // 获取被标记的参数的数据类型，建立参数名和参数类型的映射
+                    //3.解析方法里被@RequestParam标记的参数,
+                    // 获取该注解的属性值,作为参数名,
+                    // 获取被标记的参数的数据类型,建立参数名和参数类型的映射
                     Map<String, Class<?>> methodParams = new HashMap<>();
                     // 获取method实例中的参数
                     Parameter[] parameters = method.getParameters();
@@ -101,15 +101,15 @@ public class ControllerRequestProcessor implements RequestProcessor {
                             methodParams.put(param.value(), parameter.getType());
                         }
                     }
-                    //4.将获取到的信息封装成RequestPathInfo实例和ControllerMethod实例，放置到映射表里
-                    // 获取请求方法，转换为String类型
+                    //4.将获取到的信息封装成RequestPathInfo实例和ControllerMethod实例,放置到映射表里
+                    // 获取请求方法,转换为String类型
                     String httpMethod = String.valueOf(methodRequest.method());
                     // 封装到RequestPathInfo
                     RequestPathInfo requestPathInfo = new RequestPathInfo(httpMethod, url);
                     // 判断映射中是否已经存在对应的key
                     if (this.pathControllerMethodMap.containsKey(requestPathInfo)) {
                         // 若存在则提出报警信息
-                        log.warn("duplicate url:{} registration，current class {} method{} will override the former one",
+                        log.warn("duplicate url:{} registration,current class {} method{} will override the former one",
                                 requestPathInfo.getHttpPath(), requestMappingClass.getName(), method.getName());
                     }
                     // 封装成ControllerMethod实例
@@ -126,16 +126,16 @@ public class ControllerRequestProcessor implements RequestProcessor {
         //1.解析HttpSevletRequest的请求方法,请求路径
         String method = requestProcessorChain.getRequestMethod();
         String path = requestProcessorChain.getRequestPath();
-        // 根据请求方法，请求路径封装成RequestPathInfo，获取对应的ControllerMethod实例
+        // 根据请求方法,请求路径封装成RequestPathInfo,获取对应的ControllerMethod实例
         ControllerMethod controllerMethod = this.pathControllerMethodMap.get(new RequestPathInfo(method, path));
         if (controllerMethod == null) {
             // 找不到处理方法的结果渲染器
             requestProcessorChain.setResultRender(new ResourceNotFoundResultRender(method, path));
             return false;
         }
-        //2.解析请求参数，并传递给获取到的ControllerMethod实例去执行
+        //2.解析请求参数,并传递给获取到的ControllerMethod实例去执行
         Object result = invokeControllerMethod(controllerMethod, requestProcessorChain.getRequest());
-        //3.根据处理的结果，选择对应的render进行渲染
+        //3.根据处理的结果,选择对应的render进行渲染
         setResultRender(result, controllerMethod, requestProcessorChain);
         return true;
     }
@@ -148,7 +148,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
             return;
         }
         ResultRender resultRender;
-        // 判断是否有ResponseBody注解 ，返回的是否是Json数据
+        // 判断是否有ResponseBody注解 ,返回的是否是Json数据
         boolean isJson = controllerMethod.getInvokeMethod().isAnnotationPresent(ResponseBody.class);
         if (isJson) {
             resultRender = new JsonResultRender(result);
@@ -162,15 +162,15 @@ public class ControllerRequestProcessor implements RequestProcessor {
         //1.从请求里获取GET或者POST的参数名及其对应的值
         // 用于存储从请求中解析出的参数名和对应的值
         Map<String, String> requestParamMap = new HashMap<>();
-        //GET，POST方法的请求参数获取方式
+        //GET,POST方法的请求参数获取方式
         Map<String, String[]> parameterMap = request.getParameterMap();
         for (Map.Entry<String, String[]> parameter : parameterMap.entrySet()) {
             if (!ValidationUtil.isEmpty(parameter.getValue())) {
-                //只支持一个参数对应一个值的形式，value只获取第一个值
+                //只支持一个参数对应一个值的形式,value只获取第一个值
                 requestParamMap.put(parameter.getKey(), parameter.getValue()[0]);
             }
         }
-        //2.根据获取到的请求参数名及其对应的值，以及controllerMethod里面的参数和类型的映射关系，去实例化出方法对应的参数
+        //2.根据获取到的请求参数名及其对应的值,以及controllerMethod里面的参数和类型的映射关系,去实例化出方法对应的参数
         List<Object> methodParams = new ArrayList<>();
         // 方法参数名称以及对应的参数类型
         Map<String, Class<?>> methodParamMap = controllerMethod.getMethodParameters();
@@ -210,11 +210,11 @@ public class ControllerRequestProcessor implements RequestProcessor {
                 result = invokeMethod.invoke(controller, methodParams.toArray());
             }
         } catch (InvocationTargetException e) {
-            // 如果是调用异常的话，需要通过e.getTargetException()
+            // 如果是调用异常的话,需要通过e.getTargetException()
             // 去获取执行方法抛出的异常
             throw new RuntimeException(e.getTargetException());
         } catch (IllegalAccessException e) {
-            // 非法访问异常，直接抛出
+            // 非法访问异常,直接抛出
             throw new RuntimeException(e);
         }
         // 返回方法处理的结果

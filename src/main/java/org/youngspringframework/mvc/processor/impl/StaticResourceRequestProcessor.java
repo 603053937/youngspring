@@ -33,16 +33,16 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
         //1.通过请求路径判断是否是请求的静态资源  静态资源存放在webapp/static目录中
         if(isStaticResource(requestProcessorChain.getRequestPath())){
-            //2.如果是静态资源，则将请求转发给default servlet处理
+            //2.如果是静态资源,则将请求转发给default servlet处理
             defaultDispatcher.forward(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
-            // false表明该资源已被当前Processor处理了，不需要再传给下个RequestProcessor处理
+            // false表明该资源已被当前Processor处理了,不需要再传给下个RequestProcessor处理
             return false;
         }
-        // true说明资源未被处理，需要往下传递，让别的RequestProcessor进行处理
+        // true说明资源未被处理,需要往下传递,让别的RequestProcessor进行处理
         return true;
     }
     // 通过请求路径前缀（目录）是否为静态资源 /static/
-    // webapp是根目录，不会出现在请求路径中
+    // webapp是根目录,不会出现在请求路径中
     private boolean isStaticResource(String path){
         return path.startsWith(STATIC_RESOURCE_PREFIX);
     }

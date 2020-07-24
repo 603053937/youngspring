@@ -12,7 +12,7 @@ public class test {
         new AspectWeaver().doAop();
         new DependencyInjector().doIoc();
         HeadLineOperationController headLineOperationController = (HeadLineOperationController) beanContainer.getBean(HeadLineOperationController.class);
-        headLineOperationController.addHeadLine(null, null);
+
     }
 
     @Test

@@ -16,6 +16,6 @@ import java.lang.annotation.Target;
 public @interface RequestMapping {
     //请求路径
     String value() default "";
-    //请求方法，默认值设置为get
+    //请求方法,默认值设置为get
     RequestMethod method() default RequestMethod.GET;
 }

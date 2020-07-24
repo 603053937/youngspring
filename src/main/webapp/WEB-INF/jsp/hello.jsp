@@ -7,6 +7,6 @@
     </head>
     <body>
         <h1>Hello!</h1>
-        <h2>太牛了，${name}</h2>
+        <h2>太牛了,${name}</h2>
     </body>
 </html>

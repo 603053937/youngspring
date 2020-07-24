@@ -16,7 +16,7 @@ public class ServiceTimeCalculatorAspect extends DefaultAspect {
     private long timestampCache;
     @Override
     public void before(Class<?> targetClass, Method method, Object[] args) throws Throwable {
-        log.info("开始计时，执行的类是[{}],执行的方法是[{}]，参数是[{}]",
+        log.info("开始计时,执行的类是[{}],执行的方法是[{}],参数是[{}]",
                 targetClass.getName(),method.getName(),args);
         timestampCache = System.currentTimeMillis();
     }
@@ -25,7 +25,7 @@ public class ServiceTimeCalculatorAspect extends DefaultAspect {
     public Object afterReturning(Class<?> targetClass, Method method, Object[] args, Object returnValue) throws Throwable {
         long endTime = System.currentTimeMillis();
         long costTime = endTime - timestampCache;
-        log.info("结束计时，执行的类是[{}], 执行的方法是[{}]，参数是[{}]，返回值是[{}]时间为[{}]ms",
+        log.info("结束计时,执行的类是[{}], 执行的方法是[{}],参数是[{}],返回值是[{}]时间为[{}]ms",
                 targetClass.getName(),method.getName(),args, returnValue, costTime);
         return returnValue;
     }

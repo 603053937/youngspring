@@ -33,12 +33,12 @@ public class JspRequestProcessor implements RequestProcessor {
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
         //1.是否请求的是jsp资源
         if (isJspResource(requestProcessorChain.getRequestPath())) {
-            //2.如果是jsp资源，则将请求转发给jsp servlet处理
+            //2.如果是jsp资源,则将请求转发给jsp servlet处理
             jspServlet.forward(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
-            // false表明该资源已被当前Processor处理了，不需要再传给下个RequestProcessor处理
+            // false表明该资源已被当前Processor处理了,不需要再传给下个RequestProcessor处理
             return false;
         }
-        // true说明资源未被处理，需要往下传递，让别的RequestProcessor进行处理
+        // true说明资源未被处理,需要往下传递,让别的RequestProcessor进行处理
         return true;
     }
 

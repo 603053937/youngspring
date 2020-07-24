@@ -28,7 +28,7 @@ public class BeanContainer {
 
     /**
      * 加载bean的注解列表
-     * 当类被这些注解标注，则需要加载
+     * 当类被这些注解标注,则需要加载
      */
     private static final List<Class<? extends Annotation>> BEAN_ANNOTATION
             = Arrays.asList(Component.class, Controller.class, Service.class, Repository.class, Aspect.class);
@@ -41,7 +41,7 @@ public class BeanContainer {
         return ContainerHolder.HOLDER.instance;
     }
 
-    //拖过枚举 ，解决反射机制和序列化的侵入，保证线程安全
+    //拖过枚举 ,解决反射机制和序列化的侵入,保证线程安全
     private enum ContainerHolder {
         HOLDER;
         private BeanContainer instance;
@@ -78,7 +78,7 @@ public class BeanContainer {
      */
     public synchronized void loadBeans(String packageName) {
         //判断bean容器是否被加载过
-        //防止重复加载，提高效率
+        //防止重复加载,提高效率
         if (isLoaded()) {
             log.warn("BeanContainer has been loaded.");
             return;
@@ -96,7 +96,7 @@ public class BeanContainer {
             for (Class<? extends Annotation> annotation : BEAN_ANNOTATION) {
                 //如果类上面标记了定义的注解
                 if (clazz.isAnnotationPresent(annotation)) {
-                    //将目标类本身作为键，目标类的实例作为值，放入到beanMap中
+                    //将目标类本身作为键,目标类的实例作为值,放入到beanMap中
                     beanMap.put(clazz, ClassUtil.newInstance(clazz, true));
                 }
             }
@@ -160,7 +160,7 @@ public class BeanContainer {
             log.warn("nothing in beanMap");
             return null;
         }
-        //2.通过注解筛选被注解标记的class对象，并添加到classSet里
+        //2.通过注解筛选被注解标记的class对象,并添加到classSet里
         Set<Class<?>> classSet = new HashSet<>();
         for (Class<?> clazz : keySet) {
             //类是否有相关的注解标记
@@ -172,7 +172,7 @@ public class BeanContainer {
     }
 
     /**
-     * 通过接口或者父类获取实现类或者子类的Class集合，不包括其本身
+     * 通过接口或者父类获取实现类或者子类的Class集合,不包括其本身
      * @param interfaceOrClass 接口Class或者父类Class
      * @return Class集合
      */
@@ -183,7 +183,7 @@ public class BeanContainer {
             log.warn("nothing in beanMap");
             return null;
         }
-        //2.判断keySet里的元素是否是传入的接口或者类的子类，如果是，就将其添加到classSet里
+        //2.判断keySet里的元素是否是传入的接口或者类的子类,如果是,就将其添加到classSet里
         Set<Class<?>> classSet = new HashSet<>();
         for (Class<?> clazz : keySet) {
             // 判断keySet里的元素是否是传入的接口或者类的子类

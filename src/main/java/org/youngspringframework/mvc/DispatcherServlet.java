@@ -23,7 +23,7 @@ import java.util.List;
  *  2. 解析请求
  *  3. 派发给对应的controller里面的方法进行处理
  */
-// @WebServlet("/") 这样配置时，不过滤（放行）jsp文件。只有jsp不进控制器（servlet），其他都进
+// @WebServlet("/") 这样配置时,不过滤（放行）jsp文件。只有jsp不进控制器（servlet）,其他都进
 // @WebServlet("/*") 过滤所有文件。
 @WebServlet("/*")
 public class DispatcherServlet extends HttpServlet {
@@ -40,18 +40,18 @@ public class DispatcherServlet extends HttpServlet {
         // 依赖注入
         new DependencyInjector().doIoc();
         //2.初始化请求处理器责任链
-        // 请求预处理，包括编码以及路径处理，所以必须第一步执行
+        // 请求预处理,包括编码以及路径处理,所以必须第一步执行
         PROCESSOR.add(new PreRequestProcessor());
         // 静态资源请求处理,包括但不限于图片、css、以及js文件等 - DefaultServlet
         // 需要将请求转发到tomcat的DefaultServlet进行处理
         // getServletContext() 获取ServletContext
         // 在tomcat容器中每个Context对应一个web应用
-        // Context中存放着Wapper，每个Wapper封装着一个Servlet实例
-        // 为了将请求注入到DefaultServlet，需要获得对应的Wrapper
+        // Context中存放着Wapper,每个Wapper封装着一个Servlet实例
+        // 为了将请求注入到DefaultServlet,需要获得对应的Wrapper
         PROCESSOR.add(new StaticResourceRequestProcessor(getServletContext()));
         // jsp资源请求处理
         PROCESSOR.add(new JspRequestProcessor(getServletContext()));
-        // Controller请求处理器，将请求与方法相匹配，耗时较长，所以放在最后一步执行
+        // Controller请求处理器,将请求与方法相匹配,耗时较长,所以放在最后一步执行
         PROCESSOR.add(new ControllerRequestProcessor());
     }
 

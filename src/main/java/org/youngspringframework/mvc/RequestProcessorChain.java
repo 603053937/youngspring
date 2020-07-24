@@ -52,16 +52,16 @@ public class RequestProcessorChain {
     public void doRequestProcessorChain() {
         //1.通过迭代器遍历注册的请求处理器实现类列表
         try {
-            // Boolean hasNext:没有指针下移操作，只是判断是否存在下一个元素
+            // Boolean hasNext:没有指针下移操作,只是判断是否存在下一个元素
             while (requestProcessorIterator.hasNext()) {
                 //2.直到某个请求处理器执行possess()后返回为false为止
-                // Object next：指针下移，返回该指针所指向的元素
+                // Object next：指针下移,返回该指针所指向的元素
                 if (!requestProcessorIterator.next().process(this)) {
                     break;
                 }
             }
         } catch (Exception e) {
-            //3.期间如果出现异常，则交由内部异常渲染器处理
+            //3.期间如果出现异常,则交由内部异常渲染器处理
             this.resultRender = new InternalErrorResultRender(e.getMessage());
             log.error("doRequestProcessorChain error:", e);
         }
@@ -71,7 +71,7 @@ public class RequestProcessorChain {
      * 执行处理器
      */
     public void doRender() {
-        //1.如果请求处理器实现类均未选择合适的渲染器，则使用默认的
+        //1.如果请求处理器实现类均未选择合适的渲染器,则使用默认的
         if (this.resultRender == null) {
             this.resultRender = new DefaultResultRender();
         }
